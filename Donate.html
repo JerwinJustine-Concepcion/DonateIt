@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Home</title>
+
+  <!-- GLOBAL MERGED CSS -->
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/dea94ad9-a592-45c7-bb10-e9df3fabdd2a" class="nav-logo">
+      <span class="logo-text">DONATE IT</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html">Home</a>
+      <a href="Request.html">Request Clothes</a>
+      <a href="Donate.html">Donate</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="Profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DONATE PAGE CONTENT -->
+<section class="donate-section">
+  <div class="donate-container">
+
+    <h2 class="donate-title">Donate Clothes</h2>
+    <p class="donate-subtitle">
+      Fill out the form below to donate clothes to those in need.  
+      Our team will contact you once your donation is confirmed.
+    </p>
+
+    <form class="donate-form">
+
+      <label class="donate-label">Full Name</label>
+      <input class="donate-input" placeholder="Enter your full name">
+
+      <label class="donate-label">Email</label>
+      <input class="donate-input" placeholder="Enter your email">
+
+      <label class="donate-label">Phone Number</label>
+      <input class="donate-input" placeholder="Enter your phone number">
+
+      <label class="donate-label">Type of Clothes</label>
+      <select class="donate-select">
+        <option>Men's Clothing</option>
+        <option>Women's Clothing</option>
+        <option>Kid's Clothing</option>
+        <option>Mixed Clothing</option>
+      </select>
+
+      <label class="donate-label">Quantity</label>
+      <input class="donate-input" placeholder="e.g. 3 bags, 15 pieces">
+
+      <label class="donate-label">Pickup Address</label>
+      <textarea class="donate-textarea" placeholder="Enter full address"></textarea>
+
+      <button class="donate-btn">Submit Donation</button>
+
+    </form>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<!-- JS -->
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+</script>
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+
+// LOGOUT → redirect to login page
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+
+</body>
+</html>

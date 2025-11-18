@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/dea94ad9-a592-45c7-bb10-e9df3fabdd2a" class="nav-logo">
+      <span class="logo-text">DONATE IT</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html">Home</a>
+      <a href="Request.html">Request Clothes</a>
+      <a href="Donate.html">Donate</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+
+    <!-- DROPDOWN -->
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="login.html">Login</a>
+        <a href="settings.html">Settings</a>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- LOGIN FORM -->
+<section class="login-wrapper">
+  <div class="login-container">
+
+    <form class="login-box">
+      <label class="form-label">Username</label>
+      <input class="form-input" placeholder="example2323_23232">
+
+      <div class="form-row-between">
+        <label class="form-label">Password</label>
+        <a class="forgot-link" href="#">Forgot Password?</a>
+      </div>
+
+      <input type="password" class="form-input" placeholder="Enter your password">
+
+      <button class="full-btn">Sign In</button>
+
+      <!-- UPDATED REGISTER LINK -->
+      <div class="register-row">
+        <span class="register-text">Don't have an account?</span>
+        <a class="register-link" href="Register.html">Register</a>
+      </div>
+
+      <p class="signin-with">Or sign in with</p>
+
+      <div class="google-btn">
+        <img class="google-icon" src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/671fa5f4-c15f-42f8-88d6-131c2a7404de">
+        <span class="google-text">Continue with Google</span>
+      </div>
+    </form>
+
+    <img class="login-side-image" src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/688f48eb-9dcd-4cb6-9cb3-6c6ee39dba53">
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<!-- JS -->
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+</script>
+
+</body>
+</html>
