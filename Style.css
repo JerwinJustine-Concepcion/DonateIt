@@ -1,0 +1,940 @@
+/* =========================================================
+   1. VARIABLES & GLOBAL RESET
+   ========================================================= */
+:root {
+  --primary: #F15622;   /* Orange */
+  --dark: #0D0B0B;      /* Black/Dark Gray */
+  --gray: #6E6E6E;
+  --max-width: 1200px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #fff;
+  color: #000;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Common Container Setup */
+.container,
+.nav-container,
+.feature-container,
+.category-grid,
+.why-grid,
+.contact-container,
+.request-container,
+.donate-container {
+  width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+/* Global Section Spacing */
+section {
+  padding: 70px 0;
+}
+
+/* Headers */
+.section-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 35px;
+  color: #222;
+  line-height: 1.3;
+}
+
+.section-title + p {
+  margin-top: -15px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Common Buttons */
+.primary-btn, 
+.hero-btn, 
+.donate-btn, 
+.request-btn, 
+.full-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 8px; /* Standardized radius */
+  cursor: pointer;
+  transition: opacity 0.3s;
+  display: inline-block;
+}
+
+.primary-btn:hover, 
+.hero-btn:hover, 
+.donate-btn:hover, 
+.request-btn:hover, 
+.full-btn:hover {
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   2. NAVBAR & HEADER
+   ========================================================= */
+.navbar {
+  background: var(--dark);
+  padding: 16px 0;
+  position: sticky; /* Optional: Keep nav at top */
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation Links & Animations */
+.nav-links {
+  display: flex;
+  gap: 45px;
+}
+
+.nav-links a {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--primary);
+}
+
+/* Underline Animation */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 3px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* Profile Dropdown */
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--dark);
+}
+
+.profile-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  width: 150px;
+  border-radius: 10px;
+  padding: 10px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none; /* Toggled via JS */
+  z-index: 20;
+}
+
+.profile-menu a {
+  display: block;
+  padding: 10px 16px;
+  color: #000;
+}
+
+.profile-menu a:hover {
+  background: #f2f2f2;
+}
+
+
+/* =========================================================
+   3. HOMEPAGE SECTIONS
+   ========================================================= */
+
+/* Hero Section */
+.hero-section {
+  /* Note: Update URL to your actual image path */
+  background-image: url('photo_2026-01-05_21-23-23.jpg'); 
+  background-size: cover;
+  background-position: center;
+  height: 480px;
+  position: relative;
+  padding: 0; /* Remove padding since flex handles alignment */
+}
+
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-title {
+  font-size: 42px;
+  color: orangered;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  color: #eaeaea;
+  margin: 2px 0 20px;
+  font-size: 16px;
+  max-width: 600px;
+}
+
+/* Features (Schedule/Pickup) */
+.feature-section {
+  padding: 60px 0;
+}
+
+.feature-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.feature-card {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.feature-card img {
+  width: 260px;       /* Updated Size from "Final Fix" */
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 18px;
+}
+
+.feature-card h3 {
+  color: var(--primary);
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 280px;
+  color: var(--gray);
+}
+
+/* Categories (Donate Almost Anything) */
+.category-section {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 150px);
+  justify-content: center;
+  gap: 30px;
+}
+
+.category-item {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-item img {
+  width: 100%;
+  border-radius: 50%; /* Circle images */
+  margin-bottom: 14px;
+  transition: transform 0.3s;
+}
+
+.category-item:hover img {
+  transform: scale(1.05);
+}
+
+.category-item p {
+  margin-top: 5px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Why Donate Section */
+.why-section {
+  padding: 70px 0;
+  text-align: center;
+  background-color: #fafafa; /* Optional: slight contrast */
+}
+
+.why-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+.why-item {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.why-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.why-item h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: var(--primary);
+}
+
+.why-item p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+
+/* =========================================================
+   4. AUTH PAGES (LOGIN & REGISTER)
+   ========================================================= */
+/* Center alignment for Login/Register Text */
+.login-box h2 {
+  color: var(--dark);
+  font-weight: bold;
+}
+
+/* Error Message Styling */
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ef9a9a;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Responsive fix for Auth Image */
+.login-side-image {
+  border-radius: 16px;
+  object-fit: cover;
+  /* Masiguradong pantay ang height ng image sa form */
+  height: 550px; 
+}
+
+/* Center the "Or sign in with" text */
+.signin-with {
+  position: relative;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.google-btn {
+  transition: background 0.3s;
+}
+
+.google-btn:hover {
+  background: #f1f1f1;
+}
+
+.login-wrapper,
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
+  background: #f9f9f9;
+}
+
+.login-container,
+.register-container {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.login-box,
+.register-box {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.login-side-image,
+.register-side-image {
+  flex: 1;
+  max-width: 600px;
+  border-radius: 16px;
+  object-fit: cover;
+  height: 500px;
+  display: block; /* Hidden on mobile via media query */
+}
+
+/* Auth Form Elements */
+.register-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.form-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.forgot-link, .register-link {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.google-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.google-icon {
+  width: 18px;
+  margin-right: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+/* =========================================================
+   GO BACK BUTTON STYLING
+   ========================================================= */
+.back-nav {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 1000;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: var(--dark);
+  padding: 12px 20px;
+  border-radius: 50px; /* Capsule shape */
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Ang icon sa loob ng button */
+.back-btn svg {
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effects */
+.back-btn:hover {
+  background: var(--primary); /* Magiging orange pag hinover */
+  color: #ffffff;
+  transform: translateX(-5px); /* Konting galaw pakaliwa */
+  box-shadow: 0 6px 20px rgba(241, 86, 34, 0.3);
+  border-color: var(--primary);
+}
+
+.back-btn:hover svg {
+  transform: translateX(-3px); /* Ang arrow lalong gagalaw pakaliwa */
+  stroke: #ffffff;
+}
+
+/* Active/Click effect */
+.back-btn:active {
+  transform: scale(0.95) translateX(-5px);
+}
+
+/* Responsive adjustment para sa mobile */
+@media (max-width: 600px) {
+  .back-nav {
+    top: 15px;
+    left: 15px;
+  }
+  
+  .back-btn {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   5. DONATE & REQUEST FORMS (UPDATED)
+   ========================================================= */
+
+/* Container para sa parehong Donate at Request */
+.donate-container,
+.request-container {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  
+  /* Nilalagay sa gitna ang mga text sa taas (Title at Subtitle) */
+  align-items: center; 
+  text-align: center;
+}
+
+/* Titles at Subtitles */
+.donate-title, .request-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.donate-subtitle, .request-subtitle {
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #555;
+  max-width: 600px;
+}
+
+/* Ang mismong Form (dito natin ibabalik sa kaliwa ang alignment) */
+.donate-form, .request-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left; /* Para hindi magmukhang magulo ang labels */
+}
+
+/* Styles para sa Textarea */
+.request-textarea {
+  height: 130px;
+  resize: vertical; /* Height lang ang pwedeng i-adjust ng user */
+  min-height: 100px;
+}
+
+/* Wrapper Styles */
+.donate-section, 
+.request-section {
+  padding: 60px 0;
+  display: flex;
+  justify-content: center;
+  background: #f4f4f4;
+}
+
+.donate-container,
+.request-container {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  
+  /* ITO ANG NAGLALAGAY SA GITNA NG TITLE AT SUBTITLE */
+  align-items: center; 
+  text-align: center;
+}
+
+/* Form Typography */
+.donate-title, .request-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.donate-subtitle, .request-subtitle {
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #555;
+  max-width: 600px; /* Para maganda ang pag-wrap ng text sa gitna */
+}
+
+/* Form Inputs - Panatilihing 'left aligned' ang mga labels para sa form */
+.donate-form, .request-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left; /* Labels at inputs ay mananatiling simula sa kaliwa */
+}
+
+.donate-label, .request-label {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.donate-input, .request-input,
+.donate-select, .request-select,
+.donate-textarea, .request-textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #BFBFBF;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.donate-textarea, .request-textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* Image Upload Specific */
+.image-upload-box {
+  width: 100%;
+}
+
+.image-preview {
+  width: 100%;
+  height: 220px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fafafa;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.image-preview:hover {
+  border-color: var(--primary);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none; /* JS toggles this */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* Schedule Spacing Adjustments */
+.donate-input[type="date"],
+.donate-input[type="time"] {
+  cursor: pointer;
+  background-color: #fff;
+}
+
+/* Siguraduhing responsive ang container */
+.donate-container {
+  align-items: center; /* Nilalagay sa gitna ang headers */
+  text-align: center;
+}
+
+/* Ibalat ang form alignment sa left para sa input fields */
+.donate-form {
+  text-align: left;
+  margin-top: 20px;
+}
+
+/* Image Preview Styling Update */
+.image-preview {
+  width: 100%;
+  height: 220px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fafafa;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Pinupuno ang box nang hindi nade-deform */
+}
+
+/* Success Message Styling */
+#donateSuccess {
+  background: #e8f5e9;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #4caf50;
+}
+
+
+/* =========================================================
+   6. CONTACT PAGE
+   ========================================================= */
+.contact-hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: #fff;
+}
+
+.contact-hero h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.contact-hero p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Info Cards */
+.contact-info-section {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.contact-grid {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.contact-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-icon {
+  width: 50px;
+  margin-bottom: 15px;
+}
+
+.contact-card h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+/* Contact Form */
+.contact-form-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   7. FOOTER
+   ========================================================= */
+.site-footer {
+  background: var(--dark);
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 80px;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   8. RESPONSIVE / MOBILE MEDIA QUERIES
+   ========================================================= */
+@media (max-width: 900px) {
+  /* Hide side images on Login/Register tablets/mobile */
+  .login-side-image, 
+  .register-side-image {
+    display: none;
+  }
+  
+  .login-container, 
+  .register-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Layout Adjustments */
+  .feature-container,
+  .why-grid,
+  .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .category-grid {
+    grid-template-columns: repeat(2, 150px);
+  }
+  
+  .nav-links {
+    display: none; /* Need a hamburger menu logic for real mobile */
+  }
+
+  /* Spacing Adjustments */
+  section {
+    padding: 50px 0;
+  }
+  
+  .hero-title {
+    font-size: 32px;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-item, .feature-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}

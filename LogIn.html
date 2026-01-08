@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Login</title>
+  
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+  <div class="back-nav">
+    <a href="RoleSelection.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Go Back
+    </a>
+  </div>
+
+  <section class="login-wrapper">
+    <div class="login-container">
+
+      <form class="login-box" id="loginForm">
+        <h2>Welcome Back!</h2>
+        
+        <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+        <label class="form-label">Username</label>
+        <input type="text" id="loginUsername" class="form-input" placeholder="Enter your username" required>
+
+        <div class="form-row-between">
+          <label class="form-label">Password</label>
+          <a class="forgot-link" href="#">Forgot Password?</a>
+        </div>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+
+        <button type="submit" class="full-btn">Sign In</button>
+
+        <div class="register-row">
+          <span class="register-text">Don't have an account?</span>
+          <a class="register-link" href="Register.html">Register</a>
+        </div>
+
+        <p style="text-align: center; margin: 20px 0; color: #aaa; font-size: 12px;">Or sign in with</p>
+
+        <div class="google-btn">
+          <img class="google-icon" src="google_icon-removebg-preview.png" alt="G">
+          <span class="google-text">Continue with Google</span>
+        </div>
+      </form>
+
+      <img class="login-side-image" src="photo_2026-01-05_21-23-25.jpg" alt="Login Image">
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© 2025 Donate It — All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // LOGIN FUNCTIONALITY
+    const loginForm = document.getElementById('loginForm');
+    const errorDiv = document.getElementById('errorMessage');
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const usernameInput = document.getElementById('loginUsername').value;
+      const passwordInput = document.getElementById('loginPassword').value;
+
+      // Kunin ang data mula sa localStorage (sine-save sa Register page)
+      const storedUser = JSON.parse(localStorage.getItem('userAccount'));
+
+      if (storedUser && storedUser.username === usernameInput && storedUser.password === passwordInput) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', usernameInput);
+        
+        // Redirect sa Home
+        window.location.href = "HomePages.html";
+      } else {
+        errorDiv.textContent = "Invalid username or password!";
+        errorDiv.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>

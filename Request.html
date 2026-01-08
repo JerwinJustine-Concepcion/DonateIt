@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Request Clothes</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="605784494_2588457261541061_5199458482393672565_n.png" class="nav-logo" alt="Donate It Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html">Home</a>
+      <a href="Request.html" class="active">Request Clothes</a>
+      <a href="Donate.html">Donate</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="Profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="request-section">
+  <div class="request-container">
+    <h2 class="request-title">Request Clothes</h2>
+    <p class="request-subtitle">
+      Fill out the form and our team will contact you regarding your request.
+    </p>
+
+    <form class="request-form" id="clothesRequestForm">
+      <label class="request-label">Full Name</label>
+      <input type="text" id="fullName" class="request-input" placeholder="Enter your full name" required>
+
+      <label class="request-label">Email</label>
+      <input type="email" id="email" class="request-input" placeholder="Enter your email" required>
+
+      <label class="request-label">Phone Number</label>
+      <input type="tel" id="phone" class="request-input" placeholder="Enter your phone number" required>
+
+      <label class="request-label">Type of Clothes Needed</label>
+      <select id="clothingType" class="request-select">
+        <option value="Men">Men's Clothing</option>
+        <option value="Women">Women's Clothing</option>
+        <option value="Kids">Kid's Clothing</option>
+        <option value="Mixed">Mixed Clothing</option>
+      </select>
+
+      <label class="request-label">Quantity Needed</label>
+      <input type="text" id="quantity" class="request-input" placeholder="e.g. 20 pcs, 3 boxes" required>
+
+      <label class="request-label">Reason for Request</label>
+      <textarea id="reason" class="request-textarea" placeholder="Explain why you need these clothes" required></textarea>
+
+      <button type="submit" class="request-btn">Submit Request</button>
+    </form>
+
+    <div id="successMessage" style="display:none; color: green; margin-top: 20px; font-weight: bold;">
+      Thank you! Your request has been submitted successfully.
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<script>
+// Navbar & Profile Logic
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+  if (menu && icon && !icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+// FORM FUNCTIONALITY
+const requestForm = document.getElementById('clothesRequestForm');
+const successDiv = document.getElementById('successMessage');
+
+requestForm.addEventListener('submit', function(e) {
+  e.preventDefault(); // Pipigilan ang page reload
+
+  // Pagkuha ng values
+  const requestData = {
+    fullName: document.getElementById('fullName').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    clothingType: document.getElementById('clothingType').value,
+    quantity: document.getElementById('quantity').value,
+    reason: document.getElementById('reason').value,
+    dateSubmitted: new Date().toLocaleString()
+  };
+
+  // Halimbawa: I-save sa LocalStorage (Dito mo makikita ang data sa browser)
+  let allRequests = JSON.parse(localStorage.getItem('clothesRequests')) || [];
+  allRequests.push(requestData);
+  localStorage.setItem('clothesRequests', JSON.stringify(allRequests));
+
+  // Visual feedback
+  requestForm.style.display = 'none'; // Itatago ang form
+  successDiv.style.display = 'block'; // Ipakita ang success message
+
+  console.log("Request Saved:", requestData);
+});
+</script>
+
+</body>
+</html>

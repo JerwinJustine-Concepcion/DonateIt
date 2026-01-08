@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Requests | Clothes Donation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary-orange: #ff7a21; 
+            --bg-body: #f8f9fb; 
+            --white: #fff; 
+            --text-dark: #2d3436; 
+            --text-gray: #7f8c8d; 
+            --border: #edf2f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-body); font-family: 'Inter', sans-serif; }
+
+        /* --- Updated Navbar (Consistent Design) --- */
+        nav {
+            background: var(--white);
+            padding: 0 40px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 700; min-width: 200px; }
+        .logo-box { background: var(--primary-orange); color: white; padding: 6px 10px; border-radius: 8px; }
+        
+        .nav-links { display: flex; gap: 30px; flex-grow: 1; justify-content: center; height: 100%; }
+        .nav-links a { 
+            text-decoration: none; color: var(--text-gray); font-size: 0.9rem; font-weight: 500;
+            display: flex; align-items: center; position: relative; transition: 0.3s;
+        }
+        .nav-links a.active { color: var(--primary-orange); font-weight: 600; }
+        .nav-links a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--primary-orange); }
+
+        /* Admin Profile (Right) */
+        .nav-right { display: flex; align-items: center; justify-content: flex-end; min-width: 200px; }
+        .profile-dropdown-container { position: relative; }
+        .profile-card { 
+            display: flex; align-items: center; gap: 10px; cursor: pointer; 
+            padding: 5px 10px; border-radius: 8px; transition: 0.2s;
+        }
+        .profile-card:hover { background: #f8f9fb; }
+        .avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-orange); }
+        .profile-text { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+        .admin-name { font-size: 0.85rem; font-weight: 700; color: var(--text-dark); }
+        .admin-role { font-size: 0.7rem; color: var(--text-gray); }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            display: none; position: absolute; top: 120%; right: 0;
+            background-color: var(--white); min-width: 180px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-radius: 10px;
+            padding: 8px 0; z-index: 1000; border: 1px solid var(--border);
+        }
+        .dropdown-menu a {
+            color: var(--text-dark); padding: 10px 20px; text-decoration: none;
+            display: flex; align-items: center; gap: 10px; font-size: 0.85rem; transition: 0.2s; cursor: pointer;
+        }
+        .dropdown-menu a:hover { background-color: #fff1e7; color: var(--primary-orange); }
+        .dropdown-menu hr { border: 0; border-top: 1px solid #f1f4f8; margin: 5px 0; }
+        .logout-link { color: #ff4757 !important; font-weight: 600; }
+        .show { display: block !important; }
+
+        /* --- Content Area --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .header-title h1 { font-size: 1.8rem; color: var(--text-dark); }
+        .header-title p { color: var(--text-gray); margin-top: 5px; margin-bottom: 25px; }
+
+        .search-wrapper { margin-bottom: 20px; }
+        #searchInput { 
+            padding: 12px 15px; border-radius: 10px; border: 1px solid #ddd; 
+            width: 320px; outline: none; font-size: 0.9rem; transition: 0.3s;
+        }
+        #searchInput:focus { border-color: var(--primary-orange); box-shadow: 0 0 0 3px rgba(255, 122, 33, 0.1); }
+        
+        /* Table Styles */
+        .table-card { background: var(--white); border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #fafbfc; padding: 18px 20px; color: var(--text-gray); font-size: 0.8rem; border-bottom: 1px solid #f1f4f8; text-align: left; font-weight: 600; }
+        td { padding: 18px 20px; border-bottom: 1px solid #f1f4f8; font-size: 0.9rem; vertical-align: middle; }
+
+        .org-cell { display: flex; align-items: center; gap: 12px; }
+        .org-icon { width: 38px; height: 38px; border-radius: 8px; background: #e67e22; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
+        
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: capitalize; }
+        .approved { background: #e8f8f0; color: #2ecc71; }
+        .pending { background: #fff9e6; color: #f1c40f; }
+        .rejected { background: #ffe9e9; color: #ff4757; }
+
+        .contact-info { font-size: 0.8rem; color: var(--text-gray); line-height: 1.5; }
+        .contact-info i { width: 18px; color: var(--primary-orange); }
+
+        .btn-orange { background: var(--primary-orange); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: 0.2s; margin-right: 5px; }
+        .btn-red { background: #ff4757; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: 0.2s; }
+        .btn-orange:hover { background: #e66a1a; transform: translateY(-1px); }
+        .btn-red:hover { background: #e04040; transform: translateY(-1px); }
+
+        /* Modal Edit Profile */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-save { background: var(--primary-orange); color: white; border: none; flex: 1; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn-cancel { background: #eee; flex: 1; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-area">
+            <div class="logo-box">CD</div>
+            <span>Clothes Donation</span>
+        </div>
+        <div class="nav-links">
+            <a href="admindash.html">Dashboard</a>
+            <a href="admindonation.html">Donations</a>
+            <a href="adminuser.html">Users</a>
+            <a href="adminrequests.html" class="active">Requests</a>
+        </div>
+        <div class="nav-right">
+            <div class="profile-dropdown-container">
+                <div class="profile-card" onclick="toggleDropdown()">
+                    <img id="navAvatar" src="https://ui-avatars.com/api/?name=r&background=ff7a21&color=fff" alt="Profile" class="avatar">
+                    <div class="profile-text">
+                        <span class="admin-name" id="navAdminName">ramilcosep <i class="fa-solid fa-chevron-down" style="font-size: 0.6rem;"></i></span>
+                        <span class="admin-role">Super Admin</span>
+                    </div>
+                </div>
+                <div id="dropdownMenu" class="dropdown-menu">
+                    <a onclick="openEditProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                    <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                    <hr>
+                    <a href="adminlogin.html" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom:15px;">Edit Admin Profile</h3>
+            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-gray);">Full Name</label>
+            <input type="text" id="editNameInput" style="width:100%; padding:10px; margin: 8px 0 20px 0; border: 1px solid #ddd; border-radius: 8px; outline: none;">
+            <div class="modal-btns">
+                <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-cancel" onclick="closeEditProfile()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>Organization Requests</h1>
+            <p>Welcome back, <span id="welcomeName" style="color: var(--primary-orange); font-weight: 700;">Admin Babe</span>!</p>
+        </div>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search organization...">
+        </div>
+        
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ORGANIZATION NAME</th>
+                        <th>ITEMS REQUESTED</th>
+                        <th>STATUS</th>
+                        <th>CONTACT DETAILS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="requestTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data
+        let requests = [
+            { id: 1, org: "Hope Shelter", icon: "H", items: "20 Winter Coats", status: "approved", email: "contact@hopeshelter.org", phone: "(555) 111-2222", address: "123 Main St, City" },
+            { id: 2, org: "Community Center", icon: "C", items: "15 Children's Clothes", status: "pending", email: "info@communitycenter.org", phone: "(555) 222-3333", address: "456 Oak Ave, City" },
+            { id: 3, org: "Charity Foundation", icon: "C", items: "30 T-shirts", status: "approved", email: "help@charityfoundation.org", phone: "(555) 333-4444", address: "789 Pine Rd, City" },
+            { id: 4, org: "Local Food Bank", icon: "L", items: "10 Jackets", status: "pending", email: "donations@foodbank.org", phone: "(555) 444-5555", address: "321 Elm St, City" },
+            { id: 5, org: "Youth Services", icon: "Y", items: "25 Sweaters", status: "rejected", email: "support@youthservices.org", phone: "(555) 555-6666", address: "654 Maple Dr, City" }
+        ];
+
+        // RENDER TABLE
+        function renderTable() {
+            const tableBody = document.getElementById('requestTableBody');
+            tableBody.innerHTML = "";
+
+            requests.forEach(req => {
+                const row = document.createElement('tr');
+                     const actionButtons = req.status === 'pending' 
+                          ? `<button class="btn-orange" onclick="handleAction(${req.id}, 'approved')">Approve</button>
+                              <button class="btn-red" onclick="handleAction(${req.id}, 'rejected')">Reject</button>`
+                          : '<span style="color:#bdc3c7; font-style:italic; font-size:0.8rem;">Processed</span>';
+
+                row.innerHTML = `
+                    <td>
+                        <div class="org-cell">
+                            <div class="org-icon">${req.icon}</div>
+                            <strong>${req.org}</strong>
+                        </div>
+                    </td>
+                    <td>${req.items}</td>
+                    <td><span class="status-badge ${req.status}">${req.status}</span></td>
+                    <td>
+                        <div class="contact-info">
+                            <div><i class="fa-solid fa-envelope"></i> ${req.email}</div>
+                            <div><i class="fa-solid fa-phone"></i> ${req.phone}</div>
+                            <div><i class="fa-solid fa-location-dot"></i> ${req.address}</div>
+                        </div>
+                    </td>
+                    <td>${actionButtons}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // PROFILE FUNCTIONS
+        function toggleDropdown() { 
+            document.getElementById("dropdownMenu").classList.toggle("show"); 
+        }
+
+        function openEditProfile() {
+            const name = localStorage.getItem('adminName') || "Admin Babe";
+            document.getElementById('editNameInput').value = name;
+            document.getElementById('editProfileModal').style.display = 'flex';
+            document.getElementById("dropdownMenu").classList.remove("show");
+        }
+
+        function closeEditProfile() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('editNameInput').value;
+            if(!newName.trim()) return alert("Please enter a valid name.");
+            
+            localStorage.setItem('adminName', newName);
+            document.getElementById('navAdminName').innerHTML = newName + ' <i class="fa-solid fa-chevron-down" style="font-size: 0.6rem;"></i>';
+            document.getElementById('welcomeName').innerText = newName;
+            
+            closeEditProfile();
+        }
+
+        function logout() {
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem('adminName');
+                window.location.href = "index.html";
+            }
+        }
+
+        // OTHER LOGIC
+        function handleAction(id, newStatus) {
+            const index = requests.findIndex(r => r.id === id);
+            if (index !== -1) {
+                requests[index].status = newStatus;
+                renderTable();
+            }
+        }
+
+        function searchTable() {
+            const filter = document.getElementById("searchInput").value.toUpperCase();
+            const rows = document.querySelector("table").getElementsByTagName("tr");
+            for (let i = 1; i < rows.length; i++) {
+                const td = rows[i].getElementsByTagName("td")[0];
+                rows[i].style.display = td && td.textContent.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+
+        // Sync Profile on Load
+        window.onload = function() {
+            const name = localStorage.getItem('adminName') || "Admin Babe";
+            document.getElementById('navAdminName').innerHTML = name + ' <i class="fa-solid fa-chevron-down" style="font-size: 0.6rem;"></i>';
+            document.getElementById('welcomeName').innerText = name;
+            renderTable();
+        };
+
+        // Close dropdown when clicking outside
+        window.onclick = function(e) {
+            if (!e.target.closest('.profile-dropdown-container')) {
+                document.getElementById("dropdownMenu").classList.remove("show");
+            }
+        }
+    </script>
+</body>
+</html>

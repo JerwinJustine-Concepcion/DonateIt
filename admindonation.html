@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes Donation | Donation Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff7a21;
+            --bg: #f3f4f6;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-gray: #7f8c8d;
+            --border: #edf2f7;
+            --delivered: #2ecc71;
+            --picked-up: #3498db;
+            --pending: #f1c40f;
+            --danger: #ff4d4d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-dark); }
+
+        /* Navbar Layout */
+        nav {
+            background: var(--white);
+            padding: 0 40px; /* Reduced padding for better fit */
+            height: 70px;
+            display: flex;
+            justify-content: space-between; /* Hahatiin ang space sa logo, links, at profile */
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; min-width: 200px; }
+        .logo-box { background: var(--primary); color: white; padding: 5px 8px; border-radius: 5px; }
+        
+        /* Nav Links sa Gitna */
+        .nav-links { display: flex; gap: 25px; flex-grow: 1; justify-content: center; }
+        .nav-links a { text-decoration: none; color: var(--text-gray); font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
+        .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
+        
+        /* Admin Profile sa Kanan */
+        .nav-right { display: flex; align-items: center; justify-content: flex-end; min-width: 200px; }
+        
+        .profile-dropdown-container { position: relative; }
+        .profile-card { 
+            display: flex; align-items: center; gap: 10px; cursor: pointer; 
+            padding: 5px 10px; border-radius: 8px; transition: 0.2s;
+        }
+        .profile-card:hover { background: #f8f9fb; }
+        .avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .profile-text { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+        .admin-name { font-size: 0.85rem; font-weight: 700; color: var(--text-dark); }
+        .admin-role { font-size: 0.7rem; color: var(--text-gray); }
+
+        /* Dropdown Style */
+        .dropdown-menu {
+            display: none; position: absolute; top: 120%; right: 0;
+            background-color: var(--white); min-width: 180px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-radius: 10px;
+            padding: 8px 0; z-index: 1000; border: 1px solid #edf2f7;
+        }
+        .dropdown-menu a {
+            color: var(--text-dark); padding: 10px 20px; text-decoration: none;
+            display: flex; align-items: center; gap: 10px; font-size: 0.85rem; transition: 0.2s; cursor: pointer;
+        }
+        .dropdown-menu a:hover { background-color: #fff1e7; color: var(--primary); }
+        .dropdown-menu hr { border: 0; border-top: 1px solid #f1f4f8; margin: 5px 0; }
+        .logout-link { color: #e74c3c !important; font-weight: 600; }
+        .show { display: block !important; }
+
+        /* --- UI Elements --- */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .header-title h1 { font-size: 1.8rem; color: #333; }
+        .header-title p { color: var(--text-gray); margin-top: 5px; }
+
+        .search-wrapper { position: relative; width: 300px; }
+        .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
+        .search-bar { width: 100%; padding: 10px 15px 10px 40px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-size: 0.85rem; }
+
+        /* Table Style */
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f9fafb; padding: 15px 20px; text-align: left; font-size: 0.8rem; color: var(--text-gray); border-bottom: 1px solid var(--border); }
+        td { padding: 15px 20px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+
+        .status { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: white; text-align: center; }
+        .status-delivered { background: var(--delivered); }
+        .status-picked-up { background: var(--picked-up); }
+        .status-pending { background: var(--pending); }
+
+        .btn-delivered { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; }
+        .btn-delete { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 320px; }
+        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-save { background: var(--primary); color: white; border: none; flex: 1; padding: 10px; border-radius: 8px; cursor: pointer; }
+        .btn-cancel { background: #eee; flex: 1; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
+
+        #no-results { padding: 40px; text-align: center; color: var(--text-gray); display: none; background: white; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">
+            <div class="logo-box">CD</div>
+            <span>Clothes Donation</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="admindash.html">Dashboard</a>
+            <a href="admindonation.html" class="active">Donations</a>
+            <a href="adminuser.html">Users</a>
+            <a href="adminrequests.html">Requests</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="profile-dropdown-container">
+                <div class="profile-card" onclick="toggleDropdown()">
+                    <img id="navAvatar" src="https://ui-avatars.com/api/?name=r&background=ff7a21&color=fff" alt="Profile" class="avatar">
+                    <div class="profile-text">
+                        <span class="admin-name" id="navAdminName">ramilcosep<i class="fa-solid fa-chevron-down" style="font-size: 0.6rem;"></i></span>
+                        <span class="admin-role">Super Admin</span>
+                    </div>
+                </div>
+                <div id="dropdownMenu" class="dropdown-menu">
+                    <a onclick="openEditProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                    <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                    <hr>
+                    <a href="adminlo.html" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Admin Profile</h3>
+            <label style="font-size: 0.8rem; font-weight: 600;">Full Name</label>
+            <input type="text" id="editNameInput" style="width:100%; padding:8px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px;">
+            <div class="modal-btns">
+                <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-cancel" onclick="closeEditProfile()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-section">
+            <div class="header-title">
+                <h1>Donation Management</h1>
+                <p>Welcome back, <span id="welcomeName" style="color: var(--primary); font-weight: 700;">ramilcosep</span>!</p>
+            </div>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-bar" placeholder="Search donor..." onkeyup="filterTable()">
+            </div>
+        </div>
+
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Donor Name</th>
+                        <th>Item Donated</th>
+                        <th>Status</th>
+                        <th>Pickup Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="donationBody"></tbody>
+            </table>
+            <div id="no-results">No results found.</div>
+        </div>
+    </div>
+
+    <script>
+        let donations = [
+            { id: 1, name: "John Doe", item: "5 Winter Coats", status: "Delivered", date: "2024-01-15" },
+            { id: 2, name: "Sarah Smith", item: "3 Pairs of Jeans", status: "Picked Up", date: "2024-01-18" },
+            { id: 3, name: "Michael Brown", item: "10 T-Shirts", status: "Pending", date: "2024-01-20" },
+            { id: 4, name: "Emily Johnson", item: "7 Sweaters", status: "Pending", date: "2024-01-22" }
+        ];
+
+        // --- RENDER TABLE ---
+        function renderTable(dataToRender = donations) {
+            const tableBody = document.getElementById('donationBody');
+            const noResults = document.getElementById('no-results');
+            
+            if (dataToRender.length === 0) {
+                tableBody.innerHTML = "";
+                noResults.style.display = "block";
+                return;
+            }
+
+            noResults.style.display = "none";
+            tableBody.innerHTML = dataToRender.map(item => `
+                <tr>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.item}</td>
+                    <td><span class="status ${getStatusClass(item.status)}">${item.status}</span></td>
+                    <td>${item.date}</td>
+                    <td>
+                        <button class="btn-delivered" onclick="markDelivered(${item.id})">Delivered</button>
+                        <button class="btn-delete" onclick="deleteDonation(${item.id})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // --- UI FUNCTIONS ---
+        function toggleDropdown() { 
+            document.getElementById("dropdownMenu").classList.toggle("show"); 
+        }
+
+        function openEditProfile() {
+            document.getElementById('editNameInput').value = localStorage.getItem('adminName') || "Admin Babe";
+            document.getElementById('editProfileModal').style.display = 'flex';
+            document.getElementById("dropdownMenu").classList.remove("show");
+        }
+
+        function closeEditProfile() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('editNameInput').value;
+            if(!newName.trim()) return alert("Plase enter your full name!");
+            
+            localStorage.setItem('adminName', newName);
+            document.getElementById('navAdminName').innerHTML = newName + ' <i class="fa-solid fa-chevron-down" style="font-size: 0.6rem;"></i>';
+            document.getElementById('welcomeName').innerText = newName;
+            
+            closeEditProfile();
+        }
+
+        function logout() {
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem('adminName');
+                window.location.href = "index.html";
+            }
+        }
+
+        function filterTable() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = donations.filter(item => item.name.toLowerCase().includes(term));
+            renderTable(filtered);
+        }
+
+        function getStatusClass(status) {
+            if (status === "Delivered") return "status-delivered";
+            if (status === "Picked Up") return "status-picked-up";
+            return "status-pending";
+        }
+
+        function markDelivered(id) {
+            const idx = donations.findIndex(d => d.id === id);
+            if (idx !== -1) { donations[idx].status = "Delivered"; renderTable(); }
+        }
+
+        function deleteDonation(id) {
+            if (confirm("Delete record? This action cannot be undone.")) {
+                donations = donations.filter(d => d.id !== id);
+                renderTable();
+            }
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown-container')) {
+                document.getElementById("dropdownMenu").classList.remove("show");
+            }
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>

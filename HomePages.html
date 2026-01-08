@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Home</title>
+
+  <!-- GLOBAL MERGED CSS -->
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="605784494_2588457261541061_5199458482393672565_n.png" class="nav-logo" alt="Donate It Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html" class="active">Home</a>
+      <a href="Request.html">Request Clothes</a>
+      <a href="Donate.html">Donate</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="Profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="hero-section">
+  <div class="hero-overlay">
+    <h1 class="hero-title">Give Your Old Clothes a New Life</h1>
+    <p class="hero-subtitle">Donate your unused clothes and help transform someone's life.</p>
+    <a href="Donate.html" class="hero-btn">Donate Now</a>
+  </div>
+</section>
+
+<!-- FEATURE CARDS -->
+<section class="feature-section">
+  <div class="feature-container">
+
+    <div class="feature-card">
+  <img src="photo_2026-01-05_21-23-18.jpg" alt="Schedule Pickup">
+  <h3>Schedule a Pickup</h3>
+  <p>Book a quick pickup and our team will collect your donations.</p>
+</div>
+
+
+    <div class="feature-card">
+  <img src="photo_2026-01-05_21-23-20.jpg" alt="Donate at Your Doorstep">
+  <h3>Donate at Your Doorstep</h3>
+  <p>Enjoy a smooth and hassle-free donation process at home.</p>
+</div>
+
+
+  </div>
+</section>
+
+<!-- CATEGORY GRID -->
+<section class="category-section">
+  <h2 class="section-title">Donate Almost Anything</h2>
+
+  <div class="category-grid">
+
+    <div class="category-item">
+      <img src="photo_2026-01-05_21-23-27.jpg">
+      <p>Shoes</p>
+    </div>
+
+    <div class="category-item">
+      <img src="photo_2026-01-05_21-23-28.jpg">
+      <p>Stationery</p>
+    </div>
+
+    <div class="category-item">
+      <img src="photo_2026-01-05_21-23-31.jpg">
+      <p>Clothes</p>
+    </div>
+
+    <div class="category-item">
+      <img src="photo_2026-01-05_21-23-30.jpg">
+      <p>Bags</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY DONATE -->
+<section class="why-section">
+  <h2 class="section-title">Why Donate Through Donate It?</h2>
+
+  <div class="why-grid">
+
+    <div class="why-item">
+      <img src="photo_2026-01-05_21-23-35.jpg">
+      <h3>Super Convenient</h3>
+      <p>A quick and easy donation process.</p>
+    </div>
+
+    <div class="why-item">
+      <img src="photo_2026-01-05_21-23-32.jpg">
+      <h3>Feel Good Factor</h3>
+      <p>Your donations help transform lives.</p>
+    </div>
+
+    <div class="why-item">
+      <img src="photo_2026-01-05_21-23-33.jpg">
+      <h3>Your Donations Are Valued</h3>
+      <p>We make sure your items reach the right people.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+</script>
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+
+// LOGOUT → redirect to login page
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+
+</body>
+</html>

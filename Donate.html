@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Donate Clothes</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="605784494_2588457261541061_5199458482393672565_n.png" class="nav-logo" alt="Donate It Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html">Home</a>
+      <a href="Request.html">Request Clothes</a>
+      <a href="Donate.html" class="active">Donate</a>
+      <a href="Contact.html">Contact</a>
+    </nav>
+
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="Profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="donate-section">
+  <div class="donate-container">
+    <h2 class="donate-title">Donate Clothes</h2>
+    <p class="donate-subtitle">
+      Fill out the form below to donate clothes to those in need. Our team will contact you once your donation is confirmed.
+    </p>
+
+    <form class="donate-form" id="donationForm">
+      <label class="donate-label">Full Name</label>
+      <input type="text" id="donorName" class="donate-input" placeholder="Enter your full name" required>
+
+      <label class="donate-label">Email</label>
+      <input type="email" id="donorEmail" class="donate-input" placeholder="Enter your email" required>
+
+      <label class="donate-label">Phone Number</label>
+      <input type="tel" id="donorPhone" class="donate-input" placeholder="Enter your phone number" required>
+
+      <label class="donate-label">Type of Clothes</label>
+      <select id="donationType" class="donate-select">
+        <option value="Men">Men's Clothing</option>
+        <option value="Women">Women's Clothing</option>
+        <option value="Kids">Kid's Clothing</option>
+        <option value="Mixed">Mixed Clothing</option>
+      </select>
+
+      <label class="donate-label">Quantity</label>
+      <input type="text" id="donationQty" class="donate-input" placeholder="e.g. 3 bags, 15 pieces" required>
+
+      <label class="donate-label">Pickup Address</label>
+      <textarea id="pickupAddress" class="donate-textarea" placeholder="Enter full address" required></textarea>
+
+      <div style="display: flex; gap: 15px; width: 100%;">
+        <div style="flex: 1;">
+          <label class="donate-label">Pickup Date</label>
+          <input type="date" id="pickupDate" class="donate-input" required>
+        </div>
+        <div style="flex: 1;">
+          <label class="donate-label">Pickup Time</label>
+          <input type="time" id="pickupTime" class="donate-input" required>
+        </div>
+      </div>
+
+      <label class="donate-label">Upload Clothes Image</label>
+      <div class="image-upload-box">
+        <input type="file" id="donationImage" accept="image/*" onchange="previewImage(event)" hidden required>
+        <div class="image-preview" onclick="document.getElementById('donationImage').click()">
+          <span id="uploadText">Click to upload image</span>
+          <img id="previewImg" style="display:none;" />
+        </div>
+      </div>
+
+      <button type="submit" class="donate-btn">Submit Donation</button>
+    </form>
+
+    <div id="donateSuccess" style="display:none; color: green; margin-top: 20px; font-weight: bold; text-align: center;">
+      Thank you! Your donation request and pickup schedule have been submitted.
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<script>
+// Toggle Profile Menu
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+  if (menu && !icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+
+// Logout
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+// Image Preview
+function previewImage(event) {
+  const img = document.getElementById("previewImg");
+  const text = document.getElementById("uploadText");
+  if(event.target.files.length > 0) {
+    img.src = URL.createObjectURL(event.target.files[0]);
+    img.style.display = "block";
+    text.style.display = "none";
+  }
+}
+
+// Form Submission Logic
+const donationForm = document.getElementById('donationForm');
+const successDiv = document.getElementById('donateSuccess');
+
+donationForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const donationData = {
+    name: document.getElementById('donorName').value,
+    email: document.getElementById('donorEmail').value,
+    phone: document.getElementById('donorPhone').value,
+    type: document.getElementById('donationType').value,
+    quantity: document.getElementById('donationQty').value,
+    address: document.getElementById('pickupAddress').value,
+    pickupDate: document.getElementById('pickupDate').value,
+    pickupTime: document.getElementById('pickupTime').value,
+    dateSubmitted: new Date().toLocaleString()
+  };
+
+  // I-save sa LocalStorage
+  let allDonations = JSON.parse(localStorage.getItem('myDonations')) || [];
+  allDonations.push(donationData);
+  localStorage.setItem('myDonations', JSON.stringify(allDonations));
+
+  // Feedback
+  donationForm.style.display = 'none';
+  successDiv.style.display = 'block';
+
+  console.log("Donation Saved:", donationData);
+});
+</script>
+
+</body>
+</html>

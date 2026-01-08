@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Choose Your Role</title>
+  <style>
+    :root {
+      --primary: #F15622;      /* Ang iyong Orange brand color */
+      --primary-light: #000000;
+      --dark: #000000;
+      --gray: #979797;           /* Mas mapusyaw na gray para sa dark background */
+      --text-light: #141313;  /* Para sa text sa dark background */
+      --card-bg: rgba(255, 255, 255, 0.9); /* Halos puti, konting transparency */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      /* Background Image Styles */
+      background-image: url('https://images.unsplash.com/photo-1542810634-71277d35367f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* SAMPLE IMAGE, PALITAN MO! */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative; /* Para sa overlay */
+    }
+
+    /* Overlay para mas maging malinaw ang content at blurred ang image */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+      backdrop-filter: blur(5px); /* Epekto ng blur sa background */
+      z-index: -1;
+    }
+
+    /* HEADER SECTION */
+    .selection-header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease-out;
+      color: var(--text-light); /* Ginawang light ang text para sa dark background */
+    }
+
+    .logo-img {
+      width: 130px;
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Mas matapang na shadow para sa dark bg */
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.05);
+    }
+
+    .selection-header h1 {
+      font-size: 32px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .selection-header p {
+      color: var(--gray);
+      font-size: 16px;
+    }
+
+    /* CARDS SECTION */
+    .role-container {
+      display: flex;
+      gap: 30px;
+      max-width: 850px;
+      width: 100%;
+      padding: 0 20px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .role-card {
+      flex: 1;
+      background: var(--card-bg); /* Gamit ang transparent na puti */
+      padding: 40px 30px;
+      border-radius: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Light border para sa card */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* Konting shadow */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .role-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(241, 86, 34, 0.2); /* Mas matingkad na orange shadow */
+      border-color: var(--primary);
+    }
+
+    .icon-circle {
+      width: 90px;
+      height: 90px;
+      background: rgba(241, 86, 34, 0.2); /* Mas light na orange background */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      color: var(--primary); /* Orange icon color */
+    }
+
+    .role-card:hover .icon-circle {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .role-card h2 {
+      font-size: 22px;
+      color: var(--dark); /* Dark text for card headers */
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .role-card p {
+      color: var(--gray); /* Ginawang gray ang text sa card */
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .btn-select {
+      padding: 10px 25px;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
+
+    .role-card:hover .btn-select {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* FOOTER */
+    footer {
+        margin-top: 50px;
+        color: #999; /* Light gray para sa footer text */
+        font-size: 11px;
+        letter-spacing: 1px;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .role-container { flex-direction: column; }
+      body { height: auto; padding: 50px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="selection-header">
+    <img src="605784494_2588457261541061_5199458482393672565_n.png" alt="Donate It Logo" class="logo-img">
+    <h1>Welcome to Donate It</h1>
+    <p>Please select your role to continue</p>
+  </header>
+
+  <main class="role-container">
+    <div class="role-card" onclick="navigateToRole('donor')">
+      <div class="icon-circle">🎁</div>
+      <h2>Donor</h2>
+      <p>I want to donate clothes or help fulfill requests from the community.</p>
+      <div class="btn-select">Enter as Donor</div>
+    </div>
+
+    <div class="role-card" onclick="navigateToRole('admin')">
+      <div class="icon-circle">🛡️</div>
+      <h2>Admin</h2>
+      <p>I want to manage the platform, approve requests, and monitor donations.</p>
+      <div class="btn-select">Enter as Admin</div>
+    </div>
+</main>
+<script>
+  function navigateToRole(role) {
+    if (role === 'donor') {
+      // Redirects Donors to the standard LogIn page
+      window.location.href = 'LogIn.html';
+    } else if (role === 'admin') {
+      // Redirects Admins to the specific adminlogin page
+      window.location.href = 'adminlogin.html';
+    }
+  }
+</script>
+  <footer>
+    © 2025 DONATE IT — PHILIPPINES
+  </footer>
+
+</body>
+</html>

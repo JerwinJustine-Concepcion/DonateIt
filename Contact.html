@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Contact</title>
+
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-container">
+
+    <div class="logo-group">
+      <img src="605784494_2588457261541061_5199458482393672565_n.png" class="nav-logo" alt="Donate It Logo">
+    </div>
+
+    <nav class="nav-links">
+      <a href="HomePages.html">Home</a>
+      <a href="Request.html">Request Clothes</a>
+      <a href="Donate.html">Donate</a>
+      <a href="Contact.html" class="active">Contact</a>
+    </nav>
+
+    <div class="profile-wrapper">
+      <div class="profile-icon" onclick="toggleProfileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0D0B0B" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+        </svg>
+      </div>
+
+      <div id="profileMenu" class="profile-menu">
+        <a href="Profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONTACT HERO -->
+<section class="contact-hero">
+  <h1>Contact Us</h1>
+  <p>We’re here to help. Reach out anytime!</p>
+</section>
+
+<!-- CONTACT INFO GRID -->
+<section class="contact-info-section">
+  <div class="contact-grid">
+
+    <div class="contact-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="contact-icon">
+      <h3>Phone Numbers</h3>
+      <p>0912 345 6789</p>
+      <p>0998 765 4321</p>
+      <span>Mon–Fri, 9AM–5PM</span>
+    </div>
+
+    <div class="contact-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/542/542689.png" class="contact-icon">
+      <h3>Email Support</h3>
+      <p>support@donateit.org</p>
+      <p>helpdesk@donateit.org</p>
+      <span>Replies within 24 hours</span>
+    </div>
+
+    <div class="contact-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/535/535239.png" class="contact-icon">
+      <h3>Office Location</h3>
+      <p>Donate It Headquarters</p>
+      <p>123 Hope Street, Manila, Philippines</p>
+      <span>Walk-ins welcome</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-form-section">
+  <h2>Send Us a Message</h2>
+  <p>If you have concerns, questions, or partnership ideas — feel free to message us.</p>
+
+  <form class="contact-form" onsubmit="event.preventDefault(); sendMessage();">
+
+    <input type="text" id="cname" placeholder="Full Name">
+    <input type="email" id="cemail" placeholder="Email Address">
+    <textarea id="cmessage" placeholder="Your Message"></textarea>
+
+    <button class="primary-btn">Send Message</button>
+
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Donate It — All Rights Reserved</p>
+</footer>
+
+<!-- JS ---------------------------------------- -->
+<script>
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+document.addEventListener("click", function(e) {
+  const menu = document.getElementById("profileMenu");
+  const icon = document.querySelector(".profile-icon");
+
+  if (!icon.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+  }
+});
+
+function logoutUser() {
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+// Message alert
+function sendMessage() {
+  const name = document.getElementById("cname").value.trim();
+  const email = document.getElementById("cemail").value.trim();
+  const msg = document.getElementById("cmessage").value.trim();
+
+  if (name === "" || email === "" || msg === "") {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  alert("Your message has been sent! We will contact you soon.");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate It - Register</title>
+  
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+  <div class="back-nav">
+    <a href="login.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Login
+    </a>
+  </div>
+
+  <section class="login-wrapper">
+    <div class="login-container">
+
+      <form class="login-box" id="registrationForm">
+        <h2>Create Account</h2>
+        <p>Join us and start making a difference today.</p>
+
+        <label class="form-label">Full Name</label>
+        <input id="regName" class="form-input" placeholder="e.g. Juan Dela Cruz" required>
+
+        <label class="form-label">Username (for login)</label>
+        <input id="regUsername" class="form-input" placeholder="Enter a username" required>
+
+        <label class="form-label">Email Address</label>
+        <input id="regEmail" type="email" class="form-input" placeholder="name@example.com" required>
+
+        <label class="form-label">Password</label>
+        <input id="regPass" type="password" class="form-input" placeholder="Min. 8 characters" required>
+
+        <button type="submit" class="full-btn">Sign Up</button>
+
+        <div class="register-row">
+          <span class="register-text">Already have an account?</span>
+          <a class="register-link" href="login.html">Login here</a>
+        </div>
+      </form>
+
+      <img class="login-side-image" src="605784494_2588457261541061_5199458482393672565_n.jpg" alt="Register Image">
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© 2025 Donate It — All Rights Reserved</p>
+  </footer>
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      registerUser();
+    });
+
+    function registerUser() {
+      const name = document.getElementById("regName").value.trim();
+      const username = document.getElementById("regUsername").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPass").value.trim();
+
+      if (name === "" || username === "" || email === "" || pass === "") {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const userAccount = {
+        fullName: name,
+        username: username,
+        email: email,
+        password: pass
+      };
+
+      // Sine-save sa LocalStorage para magamit sa login.html
+      localStorage.setItem('userAccount', JSON.stringify(userAccount));
+      alert("Account created successfully! You can now log in.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

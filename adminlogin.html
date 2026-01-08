@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes Donation | Admin System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff7a21;
+            --bg: #f8f9fb;
+            --text-dark: #2d3436;
+            --text-gray: #7f8c8d;
+            --border: #edf2f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #fffaf5; height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+
+        /* GO BACK BUTTON STYLING */
+        .back-nav {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+            border-color: var(--primary);
+        }
+
+        .split-container {
+            display: flex;
+            width: 90%;
+            max-width: 1000px;
+            height: 600px;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .left-panel {
+            flex: 1;
+            background-color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .left-panel i { font-size: 5rem; margin-bottom: 20px; }
+        .right-panel { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .login-input-group { margin-bottom: 20px; }
+        .login-input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #bdc3c7; }
+        
+        .auth-input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #f9f9f9;
+            outline: none;
+            font-size: 1rem;
+        }
+        .btn-signin {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <div class="back-btn" onclick="goBack()">
+            <i class="fa-solid fa-arrow-left"></i>
+            Go Back
+        </div>
+    </div>
+
+    <section id="login-page">
+        <div class="split-container">
+            <div class="left-panel">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <h1>DonateClothes</h1>
+                <p>Give your pre-loved clothes a second life and help families in need.</p>
+            </div>
+            <div class="right-panel">
+                <h2 style="font-size: 2rem; margin-bottom: 5px;">Admin Login</h2>
+                <p style="color: var(--text-gray); margin-bottom: 30px;">Enter your credentials to access the dashboard</p>
+                
+                <div class="login-input-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="usernameInput" class="auth-input" placeholder="admin@example.com">
+                    </div>
+                </div>
+
+                <div class="login-input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="passwordInput" class="auth-input" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button class="btn-signin" onclick="login()">Sign In</button>
+                
+                <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-gray);">
+                    Don't have an account? <a href="adminsignup.html" style="color: var(--primary); font-weight: 700; text-decoration: none;">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    // GO BACK FUNCTION
+    function goBack() {
+        window.location.href = "RoleSelection.html";
+    }
+
+    function login() {
+        const emailLogin = document.getElementById('usernameInput').value.trim();
+        const passLogin = document.getElementById('passwordInput').value.trim();
+        
+        if (!emailLogin || !passLogin) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const storedData = localStorage.getItem('registeredUser');
+        
+        if (!storedData) {
+            alert("No registered user found. Please sign up first!");
+            window.location.href = "adminsignup.html";
+            return;
+        }
+
+        const userObj = JSON.parse(storedData);
+
+        if (emailLogin === userObj.username && passLogin === userObj.password) {
+            localStorage.setItem('adminName', userObj.fullName);
+            localStorage.setItem('adminAvatar', userObj.initials);
+            window.location.href = "admindash.html";
+        } else {
+            alert("Invalid email or password. Please try again.");
+        }
+    }
+    </script>
+</body>
+</html>
